@@ -103,3 +103,145 @@ console.log(`Time Elapsed: ${(t2 - t1) / 1000} seconds.`);
 - Different machines will record different times
 - The same machine will record different times!
 - For fast algorithms, speed measurements may not be precise enough?
+
+### If not time, then what?
+
+- Rather than counting seconds, which are so variable...
+- Let's count the number of simple operations the computer has t perform!
+
+- Counting Operations
+
+```js
+function addUpTo(n) {
+  return n * (n + 1) / 2;
+}
+```
+1 multiplicaton
+1 addition
+1 division
+- 3 simple operations, regardles of the size of *n*
+
+---
+
+```js
+function addUpTo(n) {
+  let total = 0;
+  for (let i = 1; i <= n; i++) {
+    total += i;
+  }
+  return total;
+}
+```
+
+- *n* additions
+- *n* assignments
+- *n* additins and
+- *n* addignments
+- 1 assignment
+- 1 assingment
+- n comparisons
+
+### Counting is hard!
+
+- Depending on what we count, the number of operations can be as low as 2n or high as 5n + 2
+- But regardless of the exact number, the number of operations grows roughly *propritonally with n*
+
+### Introducing ... Big O
+ - Big O Notation is a way to formalize fuzzy counting
+ - It allows us to talk formally about how the runtime of an algorithm grows as the inputs grow 
+ - We won't care about the details, only the trends
+
+
+### Big O Definition
+
+- We say that an algorithm is **O(f(n))** if the number of simple operations the computer has to do is eventually less than a constant times **f(n)**, as **n** increases
+
+- f(n) could be linear (f(n) = n)
+- f(n) could be quadratic (f(n) = n2)
+- f(n) could be constant (f(n) = 1)
+- f(n) could be something entirely different!
+
+### Example
+
+```js
+function addUpTo(n) {
+  return n * (n + 1) / 2;
+}
+```
+- Always 3 operations **O(1)**
+
+
+```js
+function addUpTo(n) {
+  let total = 0;
+  for (let i = 1; i <= n; i++) {
+    total += i;
+  }
+  return total;
+}
+```
+
+- Number of operations is (eventually) bounded by a multiple of n (say, 10n) => **O(n)**
+--- 
+
+### Another Example
+
+```js
+function countUpAndDown(n) {
+  console.log("Ging up!");
+  for (let i = 0; i < n; i++) {
+    console.log(i);
+  } // O(n)
+  
+  console.log("At the top!\nGoing down...");
+  for (let j = n - 1; j >= 0; j--) {
+    console.log(j);
+  } // O(n)
+
+  console.log("Back down. Bye!")
+}
+
+countUpAndDown(10);
+
+```
+
+### OMG More Examplez
+
+```js
+function printAllPairs(n) {
+  for(var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      console.log(i, j)
+    }
+  }
+}
+
+
+printAllPairs(5); // O(n2)
+```
+
+### Simplifying Big O Expressions
+
+- when determining the time complexity of an algorithm, there are some helpful rule of thumbs for big O expressions.
+
+**Constants Dont't Matter**
+- O(2n)    ->  O(n)
+- O(500)   ->  O(1)
+- O(13n^2) ->  O(n^2)
+
+**Smaller Terms Don't Matter**
+
+- O(n + 10)        -> O(n)
+- O(1000n + 50)    -> O(n)
+- O(n^2 + 5n + 8)  -> O(n^2)
+
+### Big O Shorthands
+
+- Analyzing complexity with big O can get complicated
+- There are several rules of thumb that can help 
+- These rules won't **ALWAYS** work, but are a helpful starting point
+
+1. Arithmetic operations are constant
+2. Variable assignment is constant
+3. Accessing elements in an array (by index) or object (by key) is constant
+4. In a loop, the the complexity is the lenght of the loop times the complexity of whatever happens inside of the loop
